@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
-const { scheduleEmailReminders } = require('./utils/scheduler');
 
 dotenv.config();
 connectDB();
@@ -15,8 +14,6 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
-
-scheduleEmailReminders();
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

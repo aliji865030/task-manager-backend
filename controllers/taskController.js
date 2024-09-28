@@ -1,5 +1,4 @@
 const Task = require('../models/Task');
-const { sendEmailReminder } = require('../utils/emailService');
 
 const addTask = async (req, res) => {
   const { title, description, status, dueDate } = req.body;
@@ -15,15 +14,6 @@ const addTask = async (req, res) => {
     });
 
     const savedTask = await task.save();
-
-    // Schedule an email reminder 1 hour before the due date
-    const reminderTime = new Date(dueDate);
-    reminderTime.setHours(reminderTime.getHours() - 1);
-
-    // Use setTimeout to schedule the email reminder
-    setTimeout(() => {
-      sendEmailReminder(req.user.email, title, dueDate);
-    }, reminderTime - new Date());
 
     res.status(201).json(savedTask);
   } catch (error) {
